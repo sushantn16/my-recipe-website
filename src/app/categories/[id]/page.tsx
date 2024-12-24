@@ -1,9 +1,7 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Recipes } from "@/static/Recipe"
 import { categories } from "@/static/Categories"
+import RecipeCard from "@/components/recipe-card"
 
 // This is a mock function to simulate fetching categories from a database
 async function getCategory(id: string) {
@@ -31,20 +29,7 @@ export default async function CategoryPage({ params }: { params: { id: string } 
       <p className="text-xl text-muted-foreground mb-8">{category.description}</p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {recipes.map((recipe) => (
-          <Card key={recipe.id}>
-            <CardHeader>
-              <CardTitle>{recipe.title}</CardTitle>
-              <CardDescription>{recipe.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <img src={recipe.image} alt={recipe.title} className="w-full h-48 object-cover rounded-md" />
-            </CardContent>
-            <CardFooter>
-              <Button asChild>
-                <Link href={`/recipes/${recipe.id}`}>View Recipe</Link>
-              </Button>
-            </CardFooter>
-          </Card>
+          <RecipeCard key={recipe.id} recipe={recipe} />
         ))}
       </div>
     </div>

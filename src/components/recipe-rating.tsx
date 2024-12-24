@@ -1,9 +1,8 @@
-"use client"
-
 import { useState } from "react"
 import { Star } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
+import { updateRecipeRating } from '../services/api';
 
 interface RecipeRatingProps {
   recipeId: string
@@ -16,32 +15,21 @@ export function RecipeRating({ recipeId, initialRating }: RecipeRatingProps) {
 
   const handleRating = async (newRating: number) => {
     try {
-      // Here you would typically send a request to your backend to update the rating
-      const response = await fetch(`/api/recipes/${recipeId}/rate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ rating: newRating }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to update rating')
-      }
-
-      setRating(newRating)
+      const response = await updateRecipeRating(recipeId, newRating);
+  
+      setRating(newRating);
       toast({
         title: "Rating updated",
         description: `You've rated this recipe ${newRating} stars.`,
-      })
+      });
     } catch (error) {
       toast({
         title: "Failed to update rating",
         description: "An error occurred while updating the rating. Please try again.",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   return (
     <div className="flex items-center space-x-1">

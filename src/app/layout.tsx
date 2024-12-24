@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { Geist, Azeret_Mono as Geist_Mono } from 'next/font/google'
-import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "@/lib/auth"
 import { MainNav } from "@/components/main-nav"
 import { Toaster } from "@/components/ui/toaster"
+import { ThemeProvider as NextThemesProvider } from "next-themes"
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
-        <ThemeProvider
+        <NextThemesProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
@@ -43,11 +43,11 @@ export default function RootLayout({
                   <MainNav />
                 </div>
               </header>
-              <main className="flex-1 m-auto">{children}</main>
+              <main className="w-9/12 flex m-auto">{children}</main>
             </div>
           </AuthProvider>
           <Toaster />
-        </ThemeProvider>
+        </NextThemesProvider>
       </body>
     </html>
   )

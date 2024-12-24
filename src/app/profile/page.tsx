@@ -1,18 +1,16 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/lib/auth"
+import {  useAuth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import RecipeCard from "@/components/recipe-card"
+import { Recipes } from "@/static/Recipe"
+
 
 // This is a mock function to simulate fetching user data from a database
 async function getUserData(userId: string) {
   return {
-    savedRecipes: [
-      { id: '1', title: 'Spaghetti Carbonara', description: 'Classic Italian pasta dish', image: '/placeholder.svg?height=200&width=300' },
-      { id: '2', title: 'Chicken Tikka Masala', description: 'Creamy and spicy Indian curry', image: '/placeholder.svg?height=200&width=300' },
-    ],
+    savedRecipes: Recipes,
     mealPlans: [
       { id: '1', name: 'Week 1', recipes: ['Spaghetti Carbonara', 'Chicken Tikka Masala', 'Vegan Buddha Bowl'] },
       { id: '2', name: 'Week 2', recipes: ['Beef Stroganoff', 'Quinoa Salad', 'Chocolate Chip Cookies'] },
@@ -21,13 +19,13 @@ async function getUserData(userId: string) {
 }
 
 export default async function ProfilePage() {
-  const session = await getServerSession(authOptions)
+  const { user} = useAuth()
 
-  if (!session) {
+  if (!user) {
     redirect('/api/auth/signin')
   }
 
-  const userData = await getUserData(session.user.id)
+  const userData = await getUserData(user.id)
 
   return (
     <div className="container py-8">

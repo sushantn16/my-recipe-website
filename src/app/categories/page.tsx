@@ -1,21 +1,9 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-
-// This is a mock function to simulate fetching categories from a database
-async function getCategories() {
-  return [
-    { id: '1', name: 'Italian', description: 'Pasta, pizza, and more', image: '/placeholder.svg?height=200&width=300' },
-    { id: '2', name: 'Asian', description: 'Stir-fries, sushi, and curries', image: '/placeholder.svg?height=200&width=300' },
-    { id: '3', name: 'Mexican', description: 'Tacos, burritos, and quesadillas', image: '/placeholder.svg?height=200&width=300' },
-    { id: '4', name: 'Desserts', description: 'Sweet treats and baked goods', image: '/placeholder.svg?height=200&width=300' },
-    { id: '5', name: 'Vegetarian', description: 'Meat-free dishes', image: '/placeholder.svg?height=200&width=300' },
-    { id: '6', name: 'Quick & Easy', description: '30-minute meals', image: '/placeholder.svg?height=200&width=300' },
-  ]
-}
+import { categories } from "@/static/Categories"
 
 export default async function CategoriesPage() {
-  const categories = await getCategories()
 
   return (
     <div className="container py-8">

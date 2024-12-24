@@ -1,17 +1,13 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
 import { PaginationControls } from "@/components/pagination-controls"
 import { Recipes } from "@/static/Recipe"
+import RecipeCard from "@/components/recipe-card"
 
 // This is a mock function to simulate fetching recipes from a database
-async function getRecipes(page: number = 1, limit: number = 6) {
+async function getRecipes() {
   const recipes = Recipes
 
-  const start = (page - 1) * limit
-  const end = start + limit
   return {
-    recipes: recipes.slice(start, end),
+    recipes: recipes,
     totalRecipes: recipes.length
   }
 }
@@ -23,27 +19,14 @@ export default async function RecipesPage({
 }) {
   const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1
   const limit = 6
-  const { recipes, totalRecipes } = await getRecipes(page, limit)
+  const { recipes, totalRecipes } = await getRecipes()
 
   return (
     <div className="container py-8">
       <h1 className="text-4xl font-bold mb-8">All Recipes</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {recipes.map((recipe) => (
-          <Card key={recipe.id}>
-            <CardHeader>
-              <CardTitle>{recipe.title}</CardTitle>
-              <CardDescription>{recipe.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <img src={recipe.image} alt={recipe.title} className="w-full h-48 object-cover rounded-md" />
-            </CardContent>
-            <CardFooter>
-              <Button asChild>
-                <Link href={`/recipes/${recipe.id}`}>View Recipe</Link>
-              </Button>
-            </CardFooter>
-          </Card>
+          <RecipeCard key={recipe.id} recipe={recipe} />
         ))}
       </div>
       <div className="mt-8">
